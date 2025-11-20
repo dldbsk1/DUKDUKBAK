@@ -5,7 +5,42 @@ const screens = Array.from(track.children);
 const indexById = Object.fromEntries(screens.map((sec, i) => [sec.id, i]));
 let current = 0;
 
-/* ★ 한 번에 하나의 screen만 보이게 */
+
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.querySelector('.top-nav-menu');
+
+function closeMenu() {
+    navMenu.classList.remove('open');
+    navToggle.classList.remove('open');
+  }
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navMenu.classList.toggle('open');
+      navToggle.classList.toggle('open');
+    });
+
+    // 메뉴 안을 클릭할 때는 바깥 클릭으로 취급 안 되게
+    navMenu.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // 문서 아무 곳이나 클릭하면 메뉴 닫기
+    document.addEventListener('click', () => {
+      if (navMenu.classList.contains('open')) {
+        closeMenu();
+      }
+    });
+
+    // 화면 리사이즈 시(예: 가로로 눕혔다가 다시 세로), 넓어지면 메뉴 강제 닫기
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        closeMenu();
+      }
+    });
+  }
+
 function setActiveScreen(id) {
   screens.forEach(sec => {
     const active = sec.id === id;
@@ -33,11 +68,11 @@ function goTo(id, opts = { updateHash: true }) {
     history.replaceState(null, "", `#${id}`);
   }
 
-  // ★ 페이지 이동할 때 항상 맨 위로
+  // 페이지 이동할 때 항상 맨 위로
   window.scrollTo({
     top: 0,
     left: 0,
-    behavior: "auto", // "smooth"로 바꿔도 됨
+    behavior: "auto",
   });
 }
 
@@ -124,18 +159,18 @@ subTabs.forEach(tab => {
 const collectionSection = document.getElementById("collection");
 
 if (collectionSection) {
-  const detailBox  = document.getElementById("collection-detail");
+  const detailBox = document.getElementById("collection-detail");
   const detailClose = document.getElementById("detail-close");
 
   // 목록 영역들
   const collectionSearch = collectionSection.querySelector(".collection-search");
-  const collectionGrid   = collectionSection.querySelector(".collection-grid");
-  const pagination       = collectionSection.querySelector(".pagination");
+  const collectionGrid = collectionSection.querySelector(".collection-grid");
+  const pagination = collectionSection.querySelector(".pagination");
 
   // 상세 영역 내부 요소 (#collection-detail 안)
   const detailTitle = detailBox.querySelector(".detail-info-title");
-  const detailMeta  = detailBox.querySelector(".detail-meta");
-  const detailDesc  = detailBox.querySelector(".detail-desc-box");
+  const detailMeta = detailBox.querySelector(".detail-meta");
+  const detailDesc = detailBox.querySelector(".detail-desc-box");
 
   // 처음엔 "목록 상태"를 기본 state로 심어두기
   function ensureCollectionBaseState() {
@@ -147,28 +182,28 @@ if (collectionSection) {
 
   // 화면 토글 함수들
   function showCollectionList(scroll = true) {
-    detailBox.style.display        = "none";
+    detailBox.style.display = "none";
     if (collectionSearch) collectionSearch.style.display = "";
-    if (collectionGrid)   collectionGrid.style.display   = "";
-    if (pagination)       pagination.style.display       = "";
+    if (collectionGrid) collectionGrid.style.display = "";
+    if (pagination) pagination.style.display = "";
   }
 
   function showCollectionDetail(scroll = true) {
     if (collectionSearch) collectionSearch.style.display = "none";
-    if (collectionGrid)   collectionGrid.style.display   = "none";
-    if (pagination)       pagination.style.display       = "none";
+    if (collectionGrid) collectionGrid.style.display = "none";
+    if (pagination) pagination.style.display = "none";
     detailBox.style.display = "block";
   }
 
   // 카드에서 상세 내용 채우기
   function fillDetailFromItem(it) {
-    const tpl    = it.querySelector(".detail-template");
+    const tpl = it.querySelector(".detail-template");
     const nameEl = it.querySelector(".collection-name");
 
     if (tpl) {
       const tTitle = tpl.querySelector(".detail-title");
-      const tMeta  = tpl.querySelector(".detail-meta");
-      const tDesc  = tpl.querySelector(".detail-desc");
+      const tMeta = tpl.querySelector(".detail-meta");
+      const tDesc = tpl.querySelector(".detail-desc");
 
       if (tTitle) detailTitle.innerHTML = tTitle.innerHTML;
       else if (nameEl) detailTitle.textContent = nameEl.textContent.trim();
@@ -185,12 +220,12 @@ if (collectionSection) {
   // 소장품 카드 클릭 → 상세 페이지로 전환 + history.pushState
   document.querySelectorAll(".collection-item").forEach(it => {
     it.addEventListener("click", () => {
-      fillDetailFromItem(it);          // 내용 채우고
-      showCollectionDetail(true);      // 상세 화면 보이기
-      history.pushState(               // "상세 상태"를 새 히스토리로 추가
+      fillDetailFromItem(it);           
+      showCollectionDetail(true);       
+      history.pushState(             
         { collectionDetail: true },
         "",
-        window.location.href           // URL은 그대로 두고 state만 추가
+        window.location.href         
       );
 
       // 상세로 들어갈 때도 맨 위로 올리고 싶으면 이 줄 유지
@@ -208,11 +243,9 @@ if (collectionSection) {
   // 브라우저 뒤로가기 / 앞으로가기 버튼 눌렀을 때 처리
   window.addEventListener("popstate", (event) => {
     if (event.state && event.state.collectionDetail) {
-      // detail state일 때
-      showCollectionDetail(false);
+       showCollectionDetail(false);
     } else {
-      // state가 없거나 collectionDetail:false → 목록 화면
-      showCollectionList(false);
+       showCollectionList(false);
     }
   });
 }
@@ -272,6 +305,6 @@ if (collectionSection) {
     play();
   });
 
-  go(0, { animate: false }); 
+  go(0, { animate: false });
   play();
 })();

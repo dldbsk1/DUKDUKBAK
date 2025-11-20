@@ -127,7 +127,7 @@ header {
   transform: translateX(-50%) scaleX(1);
 }
 
-/* ===== Horizontal Screens ===== */
+/*   Horizontal Screens   */
 .viewport {
   position: relative;
   width: 100%;
@@ -151,11 +151,12 @@ header {
 .screen.active {
   display: block;
 }
+
 .section-inner {
   padding: 0 0 60px;
 }
 
-/* ===== Hero Slider ===== */
+/*   Hero Slider   */
 .hero {
   position: relative;
   overflow: hidden;
@@ -231,7 +232,7 @@ header {
   opacity: 1;
 }
 
-/* ===== Home Info Row 전체 레이아웃 ===== */
+/*   Home Info Row 전체 레이아웃   */
 .home-info-row {
   background: #fff;
   padding: 50px 8% 70px;
@@ -350,7 +351,6 @@ header {
   font-size: 12px;
 }
 
-/* 동그란 로고 */
 .partner-circle {
   width: 56px;
   height: 56px;
@@ -410,7 +410,6 @@ header {
   background-repeat: no-repeat;
 
   color: #fff;
-  /* 글자색 흰색 유지 */
 }
 
 .sub-header-exhibition {
@@ -456,33 +455,28 @@ header {
   display: block;
 }
 
-/* ===== Timeline (Modern) ===== */
+/*   Timeline   */
 .timeline.modern {
   position: relative;
   padding-left: 72px;
-  /* 왼쪽 여백 */
   margin-top: 18px;
 }
 
-/* 세로 라인 */
 .timeline.modern::before {
   content: "";
   position: absolute;
   left: 32px;
-  /* 라인 위치 (기준점) */
   top: 0;
   bottom: 0;
   width: 2px;
   background: #e6e8ec;
 }
 
-/* 연도별 블록 */
 .year-block {
   position: relative;
   margin-bottom: 38px;
 }
 
-/* 연도 제목 */
 .year {
   font-size: 28px;
   font-weight: 800;
@@ -491,7 +485,6 @@ header {
   color: #111;
 }
 
-/* 항목 리스트 */
 .events {
   list-style: none;
   margin: 0;
@@ -508,7 +501,6 @@ header {
 
 .events .month {
   min-width: 36px;
-  /* '5월' 폭 고정 */
   font-weight: 700;
   color: #111;
 }
@@ -518,7 +510,7 @@ header {
   font-size: 14px;
 }
 
-/* ===== About - 관람 안내 레이아웃 ===== */
+/*   About - 관람 안내 레이아웃   */
 
 #tab-explain .about-guide {
   max-width: 900px;
@@ -604,12 +596,10 @@ header {
   margin-top: 28px;
 }
 
-/* 설명 문단 */
 .visit-desc {
   margin-bottom: 16px;
 }
 
-/* 주의사항 목록 */
 .visit-list {
   list-style: none;
   padding-left: 0;
@@ -642,12 +632,11 @@ header {
   border-radius: 8px;
 }
 
-/* ===== Collection ===== */
+/*   Collection   */
 .collection-search {
   margin-top: 40px;
 }
 
-/* 검색 바 박스 */
 .collection-search-form {
   max-width: 780px;
   height: 52px;
@@ -659,7 +648,6 @@ header {
   background: #fff;
 }
 
-/* 입력창 */
 .collection-search-form input {
   flex: 1;
   border: none;
@@ -673,7 +661,6 @@ header {
   color: #b4b4b4;
 }
 
-/* 검색 버튼(아이콘) */
 .collection-search-form button {
   border: none;
   background: transparent;
@@ -726,7 +713,6 @@ header {
   font-weight: 600;
 }
 
-/* ===== Detail ===== */
 .detail-topline {
   border-top: 1px solid #dedede;
   margin-top: 26px;
@@ -793,14 +779,12 @@ header {
   color: #555;
 }
 
-/* 전체 박스 */
 .exhibition-main {
   max-width: 900px;
   margin: 50px auto 120px;
   padding: 0 20px;
 }
 
-/* 안내문 */
 .exhibition-intro {
   background: #f2f2f2;
   padding: 20px;
@@ -810,7 +794,6 @@ header {
   margin-bottom: 40px;
 }
 
-/* 전체 컨테이너: 가운데 정렬 */
 .exhibition-item {
   max-width: 1000px;
   margin: 40px auto 100px;
@@ -824,7 +807,6 @@ header {
   text-align: left;
 }
 
-/* 라벨 */
 .exhibition-label {
   display: inline-block;
   background: rgb(150, 0, 60);
@@ -842,10 +824,42 @@ header {
   overflow: hidden;
 }
 
-/* 사진 크기 */
 .exhibition-image img {
   width: 600px;
   height: 400px;
   object-fit: cover;
   border-radius: 6px;
+}
+
+.nav-toggle {
+  grid-column: 3;
+  justify-self: end;
+  width: 32px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  display: none;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #111;
+  margin: 4px 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.nav-toggle.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.nav-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
 }

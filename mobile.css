@@ -1,149 +1,177 @@
 /* ===== Responsive ===== */
 @media (max-width:768px) {
 
-  html,
-  body {
-    height: auto;
-    overflow-x: hidden;  /* 가로 스크롤 방지 */
-  }
+    html,
+    body {
+        height: auto;
+        overflow-x: hidden;
+        /* 가로 스크롤 방지 */
+    }
 
-  .viewport {
-    overflow-x: hidden;
-  }
+    .viewport {
+        overflow-x: hidden;
+    }
 
-  .screen {
-    min-height: auto;
-  }
+    .screen {
+        min-height: auto;
+    }
 
-  /* 히어로 슬라이드: 내용만큼 */
-  .slide {
-    height: auto;
-    min-height: auto;
-  }
+    .top-nav {
+        grid-template-columns: auto 1fr auto;
+        padding: 10px 16px;
+    }
 
-  .slide img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;   /* 화면 안에서만 채우기 */
-  }
+    .logo img {
+        height: 32px;
+    }
 
-  /* ===== 홈 info 섹션(모바일 세로 일렬) ===== */
-  .home-info-row {
-    padding: 24px 16px 40px;
-  }
+    /* 햄버거 버튼 보이기 */
+    .nav-toggle {
+        display: block;
+    }
 
-  .info-section {
-    max-width: 100%;
-    width: 100%;
-    margin: 0;
-    display: flex;
-    flex-direction: column;   /* 세로 한 줄 */
-    gap: 20px;
-  }
+    /* 메뉴는 접혀있다가 열리면 아래로 펼쳐지게 */
+    .top-nav-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 20px 16px;
+        gap: 10px;
+        border-bottom: 1px solid #ddd;
+        display: none;
+        /* 기본 숨김 */
+        z-index: 15;
+    }
 
-  .VR-header,
-  .info-exhibit,
-  .info-visit,
-  .info-partners {
-    width: 100%;
-  }
+    .top-nav-menu.open {
+        display: flex;
+    }
 
-  /* 상설전시 이미지가 화면 안에 꽉 차게 */
-  .exhibit-image {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-  }
+    .top-nav-menu li::after {
+        display: none;
+    }
 
-  .exhibit-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+    .slide {
+        height: 60vh;
+        min-height: 40vh;
+    }
 
-  /* 관람 안내 카드 */
-  .visit-card {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 24px 20px;
-  }
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-  /* 파트너 로고 일렬 아래로 */
-  .partners {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 24px;
-    margin-top: 12px;
-  }
+    .home-info-row {
+        padding: 24px 16px 40px;
+    }
 
-  .top-nav {
-    padding: 10px 16px;
-    column-gap: 20px;
-  }
+    .info-section {
+        max-width: 100%;
+        width: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-  .timeline {
-    margin-left: 26px;
-    padding-left: 22px;
-  }
+    .exhibit-image {
+        position: relative;
+        width: 100% !important;
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+    }
 
-  .detail-layout {
-    flex-direction: column;
-  }
+    .exhibit-image img {
+        position: static;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
 
-  .detail-thumb {
-    flex-basis: auto;
-    width: 100%;
-  }
+    .info-visit,
+    .visit-card {
+        width: 100%;
+    }
 
-  .collection-grid {
-    max-width: 100%;
-    padding: 10px 24px;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 24px;
-    row-gap: 40px;
-  }
+    .partners {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 24px;
+        margin-top: 12px;
+    }
 
-  .timeline.modern {
-    padding-left: 64px;
-  }
+    .top-nav {
+        padding: 10px 16px;
+        column-gap: 20px;
+    }
 
-  .timeline.modern::before {
-    left: 28px;
-  }
+    .timeline {
+        margin-left: 26px;
+        padding-left: 22px;
+    }
 
-  .year-block::before {
-    left: 20px;
-  }
+    .detail-layout {
+        flex-direction: column;
+    }
 
-  .year {
-    font-size: 24px;
-  }
+    .detail-thumb {
+        flex-basis: auto;
+        width: 100%;
+    }
 
-  .events .text {
-    font-size: 13px;
-  }
+    .collection-grid {
+        max-width: 100%;
+        padding: 10px 24px;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 24px;
+        row-gap: 40px;
+    }
 
-  #tab-explain .about-guide {
-    margin: 30px 20px 60px;
-  }
+    .timeline.modern {
+        padding-left: 64px;
+    }
 
-  .about-guide-list .room {
-    display: block;
-    margin-bottom: 2px;
-  }
+    .timeline.modern::before {
+        left: 28px;
+    }
 
-  #tab-visit .visit-layout {
-    flex-direction: column;
-    gap: 24px;
-    margin: 40px 20px 60px;
-    align-items: flex-start;
-  }
+    .year-block::before {
+        left: 20px;
+    }
 
-  .visit-thumb {
-    width: 100%;
-    max-width: 320px;
-    aspect-ratio: 4 / 3;
-  }
+    .year {
+        font-size: 24px;
+    }
+
+    .events .text {
+        font-size: 13px;
+    }
+
+    #tab-explain .about-guide {
+        margin: 30px 20px 60px;
+    }
+
+    .about-guide-list .room {
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    #tab-visit .visit-layout {
+        flex-direction: column;
+        gap: 24px;
+        margin: 40px 20px 60px;
+        align-items: flex-start;
+    }
+
+    .visit-thumb {
+        width: 100%;
+        max-width: 320px;
+        aspect-ratio: 4 / 3;
+    }
 }
