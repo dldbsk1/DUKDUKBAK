@@ -5,22 +5,43 @@ const screens = Array.from(track.children);
 const indexById = Object.fromEntries(screens.map((sec, i) => [sec.id, i]));
 let current = 0;
 
+/* ★ 한 번에 하나의 screen만 보이게 */
+function setActiveScreen(id) {
+  screens.forEach(sec => {
+    const active = sec.id === id;
+    sec.classList.toggle("active", active);
+  });
+}
+
+/* 메뉴 클릭 등으로 페이지 이동 */
 function goTo(id, opts = { updateHash: true }) {
   const idx = indexById[id];
   if (idx == null) return;
 
   current = idx;
-  track.style.transform = `translateX(-${idx * 100}%)`;
 
+  // 화면 전환
+  setActiveScreen(id);
+
+  // 메뉴 active 처리
   navItems.forEach(n =>
     n.classList.toggle("active", n.getAttribute("data-target") === id)
   );
 
+  // 주소창 해시 업데이트
   if (opts.updateHash) {
     history.replaceState(null, "", `#${id}`);
   }
+
+  // ★ 페이지 이동할 때 항상 맨 위로
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "auto", // "smooth"로 바꿔도 됨
+  });
 }
 
+/* 처음 로드 시: 해시 보고 이동 or home */
 (function initFromHash() {
   const hash = window.location.hash.replace("#", "");
   if (hash && indexById[hash] != null) {
@@ -30,11 +51,14 @@ function goTo(id, opts = { updateHash: true }) {
   }
 })();
 
+/* 상단 메뉴 클릭 */
 navItems.forEach(item => {
   item.addEventListener("click", () =>
     goTo(item.getAttribute("data-target"))
   );
 });
+
+/* 로고 클릭 → home */
 const logo = document.querySelector(".logo");
 if (logo) {
   logo.addEventListener("click", (e) => {
@@ -43,6 +67,7 @@ if (logo) {
   });
 }
 
+/* 주소창 해시로 이동 */
 window.addEventListener("hashchange", () => {
   const hash = window.location.hash.replace("#", "");
   if (hash && indexById[hash] != null) {
@@ -50,18 +75,30 @@ window.addEventListener("hashchange", () => {
   }
 });
 
-
-/* Touch swipe between screens */
+/* Touch swipe between screens (좌우 스와이프로 페이지 전환만) */
 let sx = 0, dx = 0, touching = false;
-track.addEventListener('touchstart', e => { touching = true; sx = e.touches[0].clientX; dx = 0; }, { passive: true });
-track.addEventListener('touchmove', e => { if (touching) dx = e.touches[0].clientX - sx; }, { passive: true });
+track.addEventListener('touchstart', e => {
+  touching = true;
+  sx = e.touches[0].clientX;
+  dx = 0;
+}, { passive: true });
+
+track.addEventListener('touchmove', e => {
+  if (touching) dx = e.touches[0].clientX - sx;
+}, { passive: true });
+
 track.addEventListener('touchend', () => {
-  if (!touching) return; touching = false;
+  if (!touching) return;
+  touching = false;
   if (Math.abs(dx) > 60) {
-    if (dx < 0 && current < screens.length - 1) goTo(screens[current + 1].id);
-    else if (dx > 0 && current > 0) goTo(screens[current - 1].id);
+    if (dx < 0 && current < screens.length - 1) {
+      goTo(screens[current + 1].id);
+    } else if (dx > 0 && current > 0) {
+      goTo(screens[current - 1].id);
+    }
   }
 });
+
 
 /* Sub-tabs */
 const subTabs = document.querySelectorAll(".sub-tab");
@@ -114,9 +151,6 @@ if (collectionSection) {
     if (collectionSearch) collectionSearch.style.display = "";
     if (collectionGrid)   collectionGrid.style.display   = "";
     if (pagination)       pagination.style.display       = "";
-    // if (scroll) {
-    //   collectionSection.scrollIntoView({ behavior: "smooth" });
-    // }
   }
 
   function showCollectionDetail(scroll = true) {
@@ -124,9 +158,6 @@ if (collectionSection) {
     if (collectionGrid)   collectionGrid.style.display   = "none";
     if (pagination)       pagination.style.display       = "none";
     detailBox.style.display = "block";
-    // if (scroll) {
-    //   detailBox.scrollIntoView({ behavior: "smooth" });
-    // }
   }
 
   // 카드에서 상세 내용 채우기
@@ -145,7 +176,7 @@ if (collectionSection) {
       detailMeta.innerHTML = tMeta ? tMeta.innerHTML : "";
       detailDesc.innerHTML = tDesc ? tDesc.innerHTML : "";
     } else {
-      if (nameEl) detailTitle.textContent = nameEl.textContent.trim();
+      if (nameEl) detailTitle.textContent = nameEl.textcontent?.trim?.() || "";
       detailMeta.innerHTML = "";
       detailDesc.innerHTML = "";
     }
@@ -161,6 +192,9 @@ if (collectionSection) {
         "",
         window.location.href           // URL은 그대로 두고 state만 추가
       );
+
+      // 상세로 들어갈 때도 맨 위로 올리고 싶으면 이 줄 유지
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     });
   });
 
@@ -218,7 +252,12 @@ if (collectionSection) {
 
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => go(i));
-    dot.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(i); } });
+    dot.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        go(i);
+      }
+    });
   });
   hero.addEventListener('mouseenter', stop);
   hero.addEventListener('mouseleave', play);
@@ -227,7 +266,12 @@ if (collectionSection) {
   let sx = 0, dx = 0, touching = false;
   hero.addEventListener('touchstart', e => { touching = true; sx = e.touches[0].clientX; dx = 0; stop(); }, { passive: true });
   hero.addEventListener('touchmove', e => { if (touching) dx = e.touches[0].clientX - sx; }, { passive: true });
-  hero.addEventListener('touchend', () => { touching = false; if (Math.abs(dx) > 50) { dx < 0 ? go(index + 1) : go(index - 1); } play(); });
+  hero.addEventListener('touchend', () => {
+    touching = false;
+    if (Math.abs(dx) > 50) { dx < 0 ? go(index + 1) : go(index - 1); }
+    play();
+  });
 
-  go(0, { animate: false }); play();
+  go(0, { animate: false }); 
+  play();
 })();

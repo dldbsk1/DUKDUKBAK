@@ -8,7 +8,7 @@
 html,
 body {
   width: 100%;
-  height: 100%;
+  height: auto;
   overflow-x: hidden;
 }
 
@@ -54,8 +54,15 @@ img {
 
 .page-wrap {
   width: 100%;
-  min-height: 100vh;
+  min-height: auto;
   background: #fff;
+}
+
+
+.screen {
+  width: 100%;
+  min-height: auto;
+  height: auto;
 }
 
 /* ===== Header / Navigation ===== */
@@ -67,7 +74,6 @@ header {
   border-bottom: 1px solid #ddd;
 }
 
-/* 3열 그리드: [왼쪽 로고] [가운데 메뉴] [오른쪽(비움)] */
 .top-nav {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -125,24 +131,26 @@ header {
 .viewport {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .screens {
-  display: grid;
+  display: block;
   grid-auto-flow: column;
   grid-auto-columns: 100%;
   width: 100%;
   transition: transform;
-  /* .6s ease-in-out; */
   will-change: transform;
 }
 
 .screen {
   width: 100%;
-  min-height: calc(100vh - 68px);
+  display: none;
 }
 
+.screen.active {
+  display: block;
+}
 .section-inner {
   padding: 0 0 60px;
 }
@@ -234,11 +242,11 @@ header {
   margin: 0 auto;
   display: grid;
   grid-template-columns: 2fr 1.2fr;
-  grid-template-rows: auto auto auto; 
+  grid-template-rows: auto auto auto;
   grid-template-areas:
     "vr vr"
     "exhibit visit"
-    "exhibit partners";  
+    "exhibit partners";
   column-gap: 40px;
   row-gap: 24px;
 }
@@ -378,7 +386,6 @@ header {
   background-repeat: no-repeat;
 
   color: #fff;
-  /* 글자색 흰색 유지 */
 }
 
 .sub-header-collection {
@@ -391,7 +398,6 @@ header {
   background-repeat: no-repeat;
 
   color: #fff;
-  /* 글자색 흰색 유지 */
 }
 
 .sub-header-room {
@@ -417,7 +423,6 @@ header {
   background-repeat: no-repeat;
 
   color: #fff;
-  /* 글자색 흰색 유지 */
 }
 
 .sub-tabs {
@@ -451,12 +456,6 @@ header {
   display: block;
 }
 
-/* ===== Timeline =====
-.timeline{ border-left:1px solid #111; margin-left:60px; padding-left:30px; padding-top:8px; }
-.timeline-item{ position:relative; margin-bottom:26px; font-size:12px; }
-.timeline-dot{ position:absolute; left:-31px; top:4px; width:9px; height:9px; border-radius:50%; background:#111; }
-.timeline-year{ font-weight:600; margin-bottom:4px; } */
-
 /* ===== Timeline (Modern) ===== */
 .timeline.modern {
   position: relative;
@@ -482,23 +481,6 @@ header {
   position: relative;
   margin-bottom: 38px;
 }
-
-/* 파란 동그라미
-.year-block::before {
-  content: "";
-  position: absolute;
-  left: 32px;                 /* 라인과 같은 x 
-  top: 6px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 3px solid #2b6cff;
-  background: #fff;
-  box-sizing: border-box;
-
-  /* 라인 중앙에 오도록 가운데 정렬 
-  transform: translateX(-50%);  /* ← 핵심! 
-} */
 
 /* 연도 제목 */
 .year {
@@ -533,40 +515,7 @@ header {
 
 .events .text {
   color: #6b7280;
-  /* 회색 본문 */
   font-size: 14px;
-}
-
-/* 반응형 */
-@media (max-width:768px) {
-  .timeline.modern {
-    padding-left: 64px;
-  }
-
-  .timeline.modern::before {
-    left: 28px;
-  }
-
-  .year-block::before {
-    left: 20px;
-  }
-
-  .year {
-    font-size: 24px;
-  }
-
-  .events .text {
-    font-size: 13px;
-  }
-
-  #tab-explain .about-guide {
-    margin: 30px 20px 60px;
-  }
-
-  .about-guide-list .room {
-    display: block;
-    margin-bottom: 2px;
-  }
 }
 
 /* ===== About - 관람 안내 레이아웃 ===== */
@@ -585,7 +534,6 @@ header {
   margin-bottom: 32px;
 }
 
-/* "전시실 안내" 제목 라인 */
 .about-guide-heading {
   font-size: 16px;
   font-weight: 600;
@@ -627,31 +575,24 @@ header {
 
 #tab-visit .visit-layout {
   max-width: 900px;
-  /* 전체 블록 폭 */
   margin: 60px auto 80px;
-  /* 화면 가운데 배치 */
   display: flex;
   gap: 60px;
   align-items: center;
-  /* 회색 박스와 글씨 수직 가운데 정렬 */
 }
 
-/* 왼쪽 회색 네모 (사진 자리) */
 .visit-thumb {
   flex: 0 0 220px;
   aspect-ratio: 3 / 4;
-  /* 세로로 약간 긴 비율 */
   background: #d9d9d9;
 }
 
-/* 오른쪽 텍스트 영역 */
 .visit-text {
   flex: 1;
   font-size: 15px;
   line-height: 1.8;
 }
 
-/* 제목 스타일 (핑크 계열 포인트 컬러) */
 .visit-title {
   font-size: 17px;
   font-weight: 600;
@@ -659,7 +600,6 @@ header {
   margin-bottom: 8px;
 }
 
-/* 두 번째 제목(주의사항) 위쪽 간격 */
 .visit-title.visit-title-sub {
   margin-top: 28px;
 }
@@ -712,7 +652,6 @@ header {
   max-width: 780px;
   height: 52px;
   margin: 0 auto;
-  /* 가운데 정렬 */
   border: 1px solid #c4c4c4;
   display: flex;
   align-items: center;
@@ -727,7 +666,6 @@ header {
   outline: none;
   font-size: 13px;
   text-align: center;
-  /* 가운데 정렬 느낌 */
   color: #333;
 }
 
@@ -746,14 +684,6 @@ header {
 .collection-search-form .search-icon {
   font-size: 15px;
 }
-
-/* 
-.collection-search input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  font-size: 12px;
-} */
 
 .collection-grid {
   display: grid;
@@ -902,11 +832,10 @@ header {
   text-align: center;
 }
 
-/* 라벨을 왼쪽 정렬처럼 보이게 만들기 위한 래퍼 */
 .exhibition-label-wrap {
-  width: 600px;  /* 사진 너비와 동일하게 */
-  margin: 0 auto; 
-  text-align: left; /* 라벨만 왼쪽으로 붙음 */
+  width: 600px;
+  margin: 0 auto;
+  text-align: left;
 }
 
 /* 라벨 */
@@ -920,7 +849,6 @@ header {
   margin-bottom: 10px;
 }
 
-/* 사진 컨테이너 (가운데 정렬) */
 .exhibition-image {
   display: flex;
   justify-content: center;
@@ -939,6 +867,37 @@ header {
 
 /* ===== Responsive ===== */
 @media (max-width:768px) {
+
+  html,
+  body {
+    height: auto;
+    /* 모바일에서 높이 강제 X */
+  }
+
+  .screen {
+    min-height: auto;
+  }
+
+  .slide {
+    height: auto;
+    min-height: auto;
+    /* 내용만큼만 */
+  }
+
+  .slide img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    /* 이미지 절대 안 잘리게 */
+  }
+
+  .exhibit-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    /* 비율 유지 + 반응형 */
+  }
+
   .top-nav {
     padding: 10px 16px;
     column-gap: 20px;
@@ -963,10 +922,6 @@ header {
     width: 100%;
   }
 
-  /* .collection-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  } */
-
   .slide {
     height: 55vh;
   }
@@ -979,19 +934,45 @@ header {
     row-gap: 40px;
   }
 
-  @media (max-width:768px) {
-    #tab-visit .visit-layout {
-      flex-direction: column;
-      gap: 24px;
-      margin: 40px 20px 60px;
-      align-items: flex-start;
-    }
-
-    .visit-thumb {
-      width: 100%;
-      max-width: 320px;
-      aspect-ratio: 4 / 3;
-    }
+  .timeline.modern {
+    padding-left: 64px;
   }
 
+  .timeline.modern::before {
+    left: 28px;
+  }
+
+  .year-block::before {
+    left: 20px;
+  }
+
+  .year {
+    font-size: 24px;
+  }
+
+  .events .text {
+    font-size: 13px;
+  }
+
+  #tab-explain .about-guide {
+    margin: 30px 20px 60px;
+  }
+
+  .about-guide-list .room {
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  #tab-visit .visit-layout {
+    flex-direction: column;
+    gap: 24px;
+    margin: 40px 20px 60px;
+    align-items: flex-start;
+  }
+
+  .visit-thumb {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 4 / 3;
+  }
 }
