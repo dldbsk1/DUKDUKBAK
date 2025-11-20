@@ -403,7 +403,7 @@ header {
 .sub-header-room {
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-    url("./image/IMG_0016.JPG");
+    url("./image/IMG_0013.JPG");
 
   background-size: cover;
   background-position: center;
@@ -413,10 +413,10 @@ header {
   /* 글자색 흰색 유지 */
 }
 
-.sub-header-VR {
+.sub-header-exhibition {
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-    url("./image/IMG_0016.JPG");
+    url("./image/IMG_0024.JPG");
 
   background-size: cover;
   background-position: center;
@@ -690,7 +690,7 @@ header {
   grid-template-columns: repeat(3, minmax(0, 2fr));
   gap: 30px 40px;
   padding: 10%;
-  padding-top: 3%;
+  padding-top: 7%;
 }
 
 .collection-item {
@@ -793,20 +793,6 @@ header {
   color: #555;
 }
 
-/* ===== Exhibition Section ===== */
-.sub-header-exhibition {
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-    url("./image/IMG_0023.JPG");
-  background-size: cover;
-  background-position: center;
-  color: #fff;
-  padding: 70px 0;
-  text-align: center;
-  font-size: 17px;
-  letter-spacing: .2em;
-}
-
 /* 전체 박스 */
 .exhibition-main {
   max-width: 900px;
@@ -862,117 +848,4 @@ header {
   height: 400px;
   object-fit: cover;
   border-radius: 6px;
-}
-
-
-/* ===== Responsive ===== */
-@media (max-width:768px) {
-
-  html,
-  body {
-    height: auto;
-    /* 모바일에서 높이 강제 X */
-  }
-
-  .screen {
-    min-height: auto;
-  }
-
-  .slide {
-    height: auto;
-    min-height: auto;
-    /* 내용만큼만 */
-  }
-
-  .slide img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    /* 이미지 절대 안 잘리게 */
-  }
-
-  .exhibit-image {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    /* 비율 유지 + 반응형 */
-  }
-
-  .top-nav {
-    padding: 10px 16px;
-    column-gap: 20px;
-  }
-
-  .home-info-row {
-    flex-direction: column;
-    padding: 20px;
-  }
-
-  .timeline {
-    margin-left: 26px;
-    padding-left: 22px;
-  }
-
-  .detail-layout {
-    flex-direction: column;
-  }
-
-  .detail-thumb {
-    flex-basis: auto;
-    width: 100%;
-  }
-
-  .slide {
-    height: 55vh;
-  }
-
-  .collection-grid {
-    max-width: 100%;
-    padding: 0 24px;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 24px;
-    row-gap: 40px;
-  }
-
-  .timeline.modern {
-    padding-left: 64px;
-  }
-
-  .timeline.modern::before {
-    left: 28px;
-  }
-
-  .year-block::before {
-    left: 20px;
-  }
-
-  .year {
-    font-size: 24px;
-  }
-
-  .events .text {
-    font-size: 13px;
-  }
-
-  #tab-explain .about-guide {
-    margin: 30px 20px 60px;
-  }
-
-  .about-guide-list .room {
-    display: block;
-    margin-bottom: 2px;
-  }
-
-  #tab-visit .visit-layout {
-    flex-direction: column;
-    gap: 24px;
-    margin: 40px 20px 60px;
-    align-items: flex-start;
-  }
-
-  .visit-thumb {
-    width: 100%;
-    max-width: 320px;
-    aspect-ratio: 4 / 3;
-  }
 }
