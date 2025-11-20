@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>덕성여자대학교 박물관</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="page-wrap">
+    <header>
+      <nav class="top-nav">
+        <a class="logo" href="#">
+          <img src="/image/logo_ke.png" alt="덕성여자대학교 박물관 로고">
+        </a>
+        <ul class="top-nav-menu">
+          <li data-target="home" class="active">덕성여자대학교</li>
+          <li data-target="about">박물관 소개</li>
+          <li data-target="exhibition">상설전시</li>
+          <li data-target="collection">소장품</li>
+          <li data-target="dukseong">덕성의 규방</li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="viewport">
+      <div class="screens" id="screens">
+        <!-- HOME -->
+        <section id="home" class="screen">
+          <section class="hero" aria-label="메인이미지" tabindex="0">
+            <div class="slides" id="slides">
+              <div class="slide" id="slide1">
+                <img src="./image/IMG_0029.JPG" alt="배경이미지1" />
+                <div class="caption">
+                  <p>DUKSUNG WOMEN'S UNIVERSITY MUSEUM</p>
+                  <h2>덕성여자대학교 박물관</h2>
+                </div>
+              </div>
+              <div class="slide" id="slide2">
+                <img src="./image/IMG_0017.JPG" alt="배경이미지2" />
+                <div class="caption">
+                  <p>DUKSUNG WOMEN'S UNIVERSITY MUSEUM</p>
+                  <h2>덕성여자대학교 박물관</h2>
+                </div>
+              </div>
+              <div class="slide" id="slide3">
+                <img src="./image/IMG_0023.JPG" alt="배경이미지3" />
+                <div class="caption">
+                  <p>DUKSUNG WOMEN'S UNIVERSITY MUSEUM</p>
+                  <h2>덕성여자대학교 박물관</h2>
+                </div>
+              </div>
+            </div>
+            <div class="dots" role="tablist" aria-label="슬라이드 이동">
+              <button class="dot active" data-index="0" role="tab" aria-controls="slide1" aria-selected="true"><span
+                  class="sr-only">첫 번째 슬라이드</span></button>
+              <button class="dot" data-index="1" role="tab" aria-controls="slide2" aria-selected="false"><span
+                  class="sr-only">두 번째 슬라이드</span></button>
+              <button class="dot" data-index="2" role="tab" aria-controls="slide3" aria-selected="false"><span
+                  class="sr-only">세 번째 슬라이드</span></button>
+            </div>
+          </section>
+
+          <div class="home-info-row section-inner">
+            <section class="info-section">
+              <div class="VR-header VR-header-info">
+                <p class="vr-subtitle">덕성여자대학교 박물관을 VR로 만나보세요!</p>
+                <h2 class="vr-title">VR MUSEUM</h2>
+              </div>
+
+              <div class="info-box info-exhibit">
+                <div class="exhibit-image">
+                  <img src="./image/IMG_0024.JPG" alt="상설 전시 이미지">
+                  <span class="exhibit-label">상설전시</span>
+                </div>
+              </div>
+
+              <!-- 오른쪽 관람 안내 박스 -->
+              <div class="info-box info-visit">
+                <div class="visit-card">
+                  <h3>관람 안내</h3>
+                  <p>운영 시간: 월–금 10:00–16:00 (15:30까지 입장 가능)</p>
+                  <p>쉬는 날: 토–일, 법정 공휴일, 학교 설립 기념일(4/19)</p>
+                  <p>전화번호: 02-901-8131</p>
+                </div>
+              </div>
+
+              <div class="info-box info-partners">
+                <div class="partners">
+                  <div class="partner">
+                    <div class="partner-circle">
+                      <a href="https://www.khs.go.kr/">
+                        <img src="./image/국가로고.png" alt="국가유산청 로고">
+                      </a>
+                    </div>
+                    <p>국가유산청</p>
+                  </div>
+                  <div class="partner">
+                    <div class="partner-circle">
+                      <a href="https://www.museum.go.kr/">
+                        <img src="./image/국가로고.png" alt="국립중앙박물관 로고">
+                      </a>
+                    </div>
+                    <p>국립중앙박물관</p>
+                  </div>
+                  <div class="partner">
+                    <div class="partner-circle">
+                      <a href="https://www.duksung.ac.kr/">
+                        <img src="./image/logo_color.png" alt="덕성여대 로고">
+                      </a>
+                    </div>
+                    <p>덕성여자대학교</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="screen">
+          <div class="sub-header sub-header-info">
+            박물관 소개
+          </div>
+
+          <!-- 상단 탭 -->
+          <div class="sub-tabs">
+            <div class="sub-tab active" data-tab="explain">박물관 안내</div>
+            <div class="sub-tab" data-tab="history">박물관 역사</div>
+            <div class="sub-tab" data-tab="visit">관람 안내</div>
+          </div>
+
+          <div class="section-inner">
+            <div class="tab-panel active" id="tab-explain">
+              <div class="about-guide">
+
+                <div class="about-guide-intro">
+                  덕성여자대학교박물관은 근대 여성교육의 선구적 역할을 담당했던 덕성여자대학교 내에 자리하고 있다.
+                  국내외의 역사·문화·예술·민속, 특히 여성 생활과 관계되는 민속자료 등을 수집·보관·연구·전시하여
+                  본교 교육과 학문연구에 이바지하고, 일반인 및 지역사회에 기여하고 있다.
+                </div>
+
+                <!-- 안내 / 특징 -->
+                <section class="about-guide-section">
+                  <h3 class="about-guide-heading">안내</h3>
+                  <p class="about-guide-text">
+                    조선시대와 근대 우리나라 여성들의 생활민속문화재를 체계적으로 전시하여
+                    한국 여성들의 생활문화상을 집중적으로 보여주고 있을 뿐만 아니라
+                    종합박물관의 성격도 함께 겸하고 있다. 우리나라 여성들의 생활사를 살펴볼 수 있는
+                    문화재 약 4,000여 점을 소장하고 있으며, 금속·나무·종이·석조공예품 등이 약 60%로
+                    가장 많은 비중을 차지한다. 복식(직물, 금속장신구 포함)류는 약 10%를 차지하며,
+                    본 대학의 교육프로그램과 연계된 각종 전시와 연구 등을 수행하고,
+                    지역사회와의 문화적 교류를 통해 복합문화공간으로 활용하고 있다.
+                  </p>
+                </section>
+
+                <!-- 전시실 안내 -->
+                <section class="about-guide-section">
+                  <h3 class="about-guide-heading">전시실 안내</h3>
+
+                  <ul class="about-guide-list">
+                    <li>
+                      <span class="room">회화․도자실</span>
+                      <span class="desc">조선시대의 일반회화․민화, 고려시대부터 조선시대까지 도자기 전시</span>
+                    </li>
+                    <li>
+                      <span class="room">목공예실</span>
+                      <span class="desc">조선시대의 목가구 전시와 규방 연출</span>
+                    </li>
+                    <li>
+                      <span class="room">복식실</span>
+                      <span class="desc">조선시대부터 근대까지 남녀복식 및 장신구, 자수품 전시</span>
+                    </li>
+                    <li>
+                      <span class="room">금속공예실</span>
+                      <span class="desc">고려시대부터 근대까지 금속공예품 전시</span>
+                    </li>
+                    <li>
+                      <span class="room">야외전시실</span>
+                      <span class="desc">조선시대 석조물 전시</span>
+                    </li>
+                  </ul>
+                </section>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="tab-history">
+              <div class="timeline modern">
+                <section class="year-block">
+                  <h3 class="year">1971</h3>
+                  <ul class="events">
+                    <li><span class="month">5월</span><span class="text">운니동 캠퍼스 D관 7층 박물관 개관</span></li>
+                  </ul>
+                </section>
+
+                <section class="year-block">
+                  <h3 class="year">1982</h3>
+                  <ul class="events">
+                    <li><span class="month">2월</span><span class="text">생활용품에서 가정집기로 확대 이전 개관</span></li>
+                  </ul>
+                </section>
+
+                <section class="year-block">
+                  <h3 class="year">1986</h3>
+                  <ul class="events">
+                    <li><span class="month">4월</span><span class="text">운니동 캠퍼스 도서관으로 확대 이전 개관</span></li>
+                    <li><span class="month">6월</span><span class="text">덕성여자대학교 박물관, 소장품 등록 완료</span></li>
+                  </ul>
+                </section>
+
+                <section class="year-block">
+                  <h3 class="year">1987</h3>
+                  <ul class="events">
+                    <li><span class="month">5월</span><span class="text">제1회 특별기획전 &lt;전통의 재발견&gt;</span></li>
+                    <li><span class="month">12월</span><span class="text">『한국의 지공예전』도록 간행</span></li>
+                  </ul>
+                </section>
+
+                <section class="year-block">
+                  <h3 class="year">1988</h3>
+                  <ul class="events">
+                    <li><span class="month">5월</span><span class="text">제2회 특별기획전시 &lt;한국의 침선전&gt; 개최</span></li>
+                  </ul>
+                </section>
+
+                <section class="year-block">
+                  <h3 class="year">1993</h3>
+                  <ul class="events">
+                    <li><span class="month">10월</span><span class="text">제3회 특별기획전시 &lt;한국의 등기전&gt; 개최</span></li>
+                  </ul>
+                </section>
+
+                <section class="year-block">
+                  <h3 class="year">2005</h3>
+                  <ul class="events">
+                    <li><span class="month">10월</span><span class="text">박물관 소장품 도록 발간</span></li>
+                    <li><span class="month">10월</span><span class="text">쌍문동 캠퍼스 차미리사관으로 신축이전 개관</span></li>
+                  </ul>
+                </section>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="tab-visit">
+              <div class="visit-layout">
+                <div class="visit-thumb"></div>
+                <div class="visit-text">
+                  <h4 class="visit-title">관람 안내</h4>
+                  <p class="visit-desc">
+                    운영 시간: 월–금 10:00–16:00 (15:30까지 입장 가능)<br>
+                    쉬는 날: 토–일, 법정 공휴일, 학교 설립 기념일(4/19)<br>
+                    전화번호: 02-901-8131
+                  </p>
+
+                  <h4 class="visit-title visit-title-sub">주의사항</h4>
+                  <ul class="visit-list">
+                    <li>소장품을 만지지 말아 주세요.</li>
+                    <li>음식물, 큰 짐은 전시실 입장이 제한될 수 있습니다.</li>
+                    <li>플래시 촬영 및 삼각대 사용은 제한됩니다.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="visit-map">
+                <div class="visit-map-box">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1097.3755429297814!2d127.01596951545265!3d37.65288668576839!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357cbc20646f6c11%3A0x4b3eed1143ae4455!2z7ISc7Jq47Yq567OE7IucIOyMjeusuOuPmSDrjZXshLHsl6zsnpDrjIDtlZnqtZAg67CV66y86rSA!5e0!3m2!1sko!2skr!4v1763355373548!5m2!1sko!2skr"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                  </iframe>
+                </div>
+                <p class="visit-map-caption">
+                  위치: 덕성여자대학교 차미리사관 지하 1층
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="exhibition" class="screen">
+          <div class="sub-header sub-header-exhibition">
+            상설전시
+          </div>
+
+          <div class="exhibition-main">
+
+            <div class="exhibition-intro">
+              덕성여자대학교 박물관은 조선시대와 근대 여성 생활사 관련 유물뿐만 아니라 다양한 성격의 유물을 수집해 연구하고 있습니다.
+              상설전시실에서는 박물관이 가지고 있는 우수한 유물만을 선택해 전시하고 있습니다. 전시유물은 정기적으로 변경됩니다.
+            </div>
+
+            <div class="exhibition-item">
+              <div class="exhibition-label">제1실) 회화·도자기</div>
+              <div class="exhibition-image">
+                <img src="./image/IMG_0024.JPG" alt="제1실">
+              </div>
+            </div>
+
+            <div class="exhibition-item">
+              <div class="exhibition-label">제2실) 목공예</div>
+              <div class="exhibition-image">
+                <img src="./image/IMG_0024.JPG" alt="제1실">
+              </div>
+            </div>
+
+            <div class="exhibition-item">
+              <div class="exhibition-label">제3실) 복식</div>
+              <div class="exhibition-image">
+                <img src="./image/IMG_0024.JPG" alt="제1실">
+              </div>
+            </div>
+
+            <div class="exhibition-item">
+              <div class="exhibition-label">제4실) 금속공예</div>
+              <div class="exhibition-image">
+                <img src="./image/IMG_0024.JPG" alt="제1실">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- COLLECTION -->
+        <section id="collection" class="screen">
+          <div class="sub-header sub-header-collection">소장품</div>
+          <div class="section-inner">
+            <div class="collection-search">
+              <form class="collection-search-form" action="#" onsubmit="return false;">
+                <input type="text" placeholder="검색어를 입력해주세요." />
+                <button type="submit" aria-label="검색">
+                  <span class="search-icon">🔍</span>
+                </button>
+              </form>
+            </div>
+
+            <div class="collection-grid">
+              <div class="collection-item">
+                <div class="collection-thumb"></div>
+                <div class="collection-name">모란도</div>
+
+                <div class="detail-template" hidden>
+                  <div class="detail-title">모란도 Peony</div>
+                  <div class="detail-meta">
+                    김수철(Kim Su-Chol), 조선 19세기<br>
+                    종이에 채색, 80×120cm
+                  </div>
+                  <div class="detail-desc">
+                    김수철(Kim Su-Chol)은 조선시대 후기 화가로,<br>
+                    자신만의 독특한 화풍을 보여주는 대표적인 모란도입니다.
+                  </div>
+                </div>
+              </div>
+
+              <div class="collection-item">
+                <div class="collection-thumb"></div>
+                <div class="collection-name">송학화조도</div>
+
+                <div class="detail-template" hidden>
+                  <div class="detail-title">송학화조도</div>
+                  <div class="detail-meta">
+                    조선 후기<br>
+                    종이에 채색
+                  </div>
+                  <div class="detail-desc">
+                    소나무와 학, 꽃과 새를 함께 그려<br>
+                    장수와 길상을 상징하는 길상화입니다.
+                  </div>
+                </div>
+              </div>
+
+              <div class="collection-item">
+                <div class="collection-thumb"></div>
+                <div class="collection-name">녹나도</div>
+
+                <div class="detail-template" hidden>
+                  <div class="detail-title">녹나도</div>
+                  <div class="detail-meta">
+                    조선 후기<br>
+                    종이에 채색
+                  </div>
+                  <div class="detail-desc">
+                    사슴을 중심으로 그려진 그림으로,<br>
+                    부와 출세를 상징하는 길상화입니다.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pagination"><span
+                class="active">1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+            </div>
+
+            <div id="collection-detail" style="margin-top:50px; display:none;">
+              <div class="detail-topline"></div>
+              <div class="detail-layout">
+                <div class="detail-thumb">
+                  <img src="./image/덕새.png" />
+                </div>
+                <div class="detail-info">
+                  <div class="detail-info-title">SES Peony</div>
+                  <div class="detail-meta">장식용 병풍, 조선 후기<br />종이에 채색, 80×120cm</div>
+                  <div class="detail-desc-box">화사한 모란을 중심으로 그린 병풍으로,<br />덕성여자대학교 박물관을 대표하는 소장품입니다.</div>
+                </div>
+              </div>
+              <div class="detail-bottom"><button class="btn-gray" id="detail-close">목록</button></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DUKSEONG -->
+        <section id="dukseong" class="screen">
+          <div class="sub-header sub-header-room">덕성의 규방</div>
+          <div class="placeholder">덕성의 규방 관련 전시는 준비 중입니다.<br />전통 여성 생활 문화와 규방 공예를 소개하는 공간으로 구성될 예정입니다.</div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script defer src="app.js"></script>
+</body>
+
+</html>

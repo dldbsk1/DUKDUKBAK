@@ -1,0 +1,233 @@
+/* ===== Horizontal Nav (menu → screens) ===== */
+const navItems = document.querySelectorAll(".top-nav-menu li");
+const track = document.getElementById("screens");
+const screens = Array.from(track.children);
+const indexById = Object.fromEntries(screens.map((sec, i) => [sec.id, i]));
+let current = 0;
+
+function goTo(id, opts = { updateHash: true }) {
+  const idx = indexById[id];
+  if (idx == null) return;
+
+  current = idx;
+  track.style.transform = `translateX(-${idx * 100}%)`;
+
+  navItems.forEach(n =>
+    n.classList.toggle("active", n.getAttribute("data-target") === id)
+  );
+
+  if (opts.updateHash) {
+    history.replaceState(null, "", `#${id}`);
+  }
+}
+
+(function initFromHash() {
+  const hash = window.location.hash.replace("#", "");
+  if (hash && indexById[hash] != null) {
+    goTo(hash, { updateHash: false });
+  } else {
+    goTo("home", { updateHash: false });
+  }
+})();
+
+navItems.forEach(item => {
+  item.addEventListener("click", () =>
+    goTo(item.getAttribute("data-target"))
+  );
+});
+const logo = document.querySelector(".logo");
+if (logo) {
+  logo.addEventListener("click", (e) => {
+    e.preventDefault();
+    goTo("home");
+  });
+}
+
+window.addEventListener("hashchange", () => {
+  const hash = window.location.hash.replace("#", "");
+  if (hash && indexById[hash] != null) {
+    goTo(hash, { updateHash: false });
+  }
+});
+
+
+/* Touch swipe between screens */
+let sx = 0, dx = 0, touching = false;
+track.addEventListener('touchstart', e => { touching = true; sx = e.touches[0].clientX; dx = 0; }, { passive: true });
+track.addEventListener('touchmove', e => { if (touching) dx = e.touches[0].clientX - sx; }, { passive: true });
+track.addEventListener('touchend', () => {
+  if (!touching) return; touching = false;
+  if (Math.abs(dx) > 60) {
+    if (dx < 0 && current < screens.length - 1) goTo(screens[current + 1].id);
+    else if (dx > 0 && current > 0) goTo(screens[current - 1].id);
+  }
+});
+
+/* Sub-tabs */
+const subTabs = document.querySelectorAll(".sub-tab");
+const tabPanels = {
+  explain: document.getElementById("tab-explain"),
+  history: document.getElementById("tab-history"),
+  visit: document.getElementById("tab-visit"),
+};
+
+subTabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    const key = tab.getAttribute("data-tab");
+    subTabs.forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    Object.keys(tabPanels).forEach(k => {
+      tabPanels[k].classList.toggle("active", k === key);
+    });
+  });
+});
+
+
+/* ===== Collection Detail Page + 뒤로가기 연동 ===== */
+const collectionSection = document.getElementById("collection");
+
+if (collectionSection) {
+  const detailBox  = document.getElementById("collection-detail");
+  const detailClose = document.getElementById("detail-close");
+
+  // 목록 영역들
+  const collectionSearch = collectionSection.querySelector(".collection-search");
+  const collectionGrid   = collectionSection.querySelector(".collection-grid");
+  const pagination       = collectionSection.querySelector(".pagination");
+
+  // 상세 영역 내부 요소 (#collection-detail 안)
+  const detailTitle = detailBox.querySelector(".detail-info-title");
+  const detailMeta  = detailBox.querySelector(".detail-meta");
+  const detailDesc  = detailBox.querySelector(".detail-desc-box");
+
+  // 처음엔 "목록 상태"를 기본 state로 심어두기
+  function ensureCollectionBaseState() {
+    if (!history.state || typeof history.state.collectionDetail === "undefined") {
+      history.replaceState({ collectionDetail: false }, "");
+    }
+  }
+  ensureCollectionBaseState();
+
+  // 화면 토글 함수들
+  function showCollectionList(scroll = true) {
+    detailBox.style.display        = "none";
+    if (collectionSearch) collectionSearch.style.display = "";
+    if (collectionGrid)   collectionGrid.style.display   = "";
+    if (pagination)       pagination.style.display       = "";
+    // if (scroll) {
+    //   collectionSection.scrollIntoView({ behavior: "smooth" });
+    // }
+  }
+
+  function showCollectionDetail(scroll = true) {
+    if (collectionSearch) collectionSearch.style.display = "none";
+    if (collectionGrid)   collectionGrid.style.display   = "none";
+    if (pagination)       pagination.style.display       = "none";
+    detailBox.style.display = "block";
+    // if (scroll) {
+    //   detailBox.scrollIntoView({ behavior: "smooth" });
+    // }
+  }
+
+  // 카드에서 상세 내용 채우기
+  function fillDetailFromItem(it) {
+    const tpl    = it.querySelector(".detail-template");
+    const nameEl = it.querySelector(".collection-name");
+
+    if (tpl) {
+      const tTitle = tpl.querySelector(".detail-title");
+      const tMeta  = tpl.querySelector(".detail-meta");
+      const tDesc  = tpl.querySelector(".detail-desc");
+
+      if (tTitle) detailTitle.innerHTML = tTitle.innerHTML;
+      else if (nameEl) detailTitle.textContent = nameEl.textContent.trim();
+
+      detailMeta.innerHTML = tMeta ? tMeta.innerHTML : "";
+      detailDesc.innerHTML = tDesc ? tDesc.innerHTML : "";
+    } else {
+      if (nameEl) detailTitle.textContent = nameEl.textContent.trim();
+      detailMeta.innerHTML = "";
+      detailDesc.innerHTML = "";
+    }
+  }
+
+  // 소장품 카드 클릭 → 상세 페이지로 전환 + history.pushState
+  document.querySelectorAll(".collection-item").forEach(it => {
+    it.addEventListener("click", () => {
+      fillDetailFromItem(it);          // 내용 채우고
+      showCollectionDetail(true);      // 상세 화면 보이기
+      history.pushState(               // "상세 상태"를 새 히스토리로 추가
+        { collectionDetail: true },
+        "",
+        window.location.href           // URL은 그대로 두고 state만 추가
+      );
+    });
+  });
+
+  // "목록" 버튼 → history.back()으로 뒤로가기와 동일하게 동작
+  if (detailClose) {
+    detailClose.addEventListener("click", () => {
+      history.back();
+    });
+  }
+
+  // 브라우저 뒤로가기 / 앞으로가기 버튼 눌렀을 때 처리
+  window.addEventListener("popstate", (event) => {
+    if (event.state && event.state.collectionDetail) {
+      // detail state일 때
+      showCollectionDetail(false);
+    } else {
+      // state가 없거나 collectionDetail:false → 목록 화면
+      showCollectionList(false);
+    }
+  });
+}
+
+
+/* ===== Home Hero Slider ===== */
+(function () {
+  const hero = document.querySelector('.hero');
+  const trackSlides = document.getElementById('slides');
+  if (!hero || !trackSlides) return;
+
+  const slides = Array.from(trackSlides.children);
+  const dots = Array.from(hero.querySelectorAll('.dot'));
+  slides.forEach((el, i) => { if (!el.id) el.id = `slide${i + 1}`; });
+  dots.forEach((d, i) => { d.setAttribute('aria-controls', slides[i].id); });
+
+  let index = 0;
+  const DURATION = 6000;
+  let timer = null;
+
+  function setActiveDot(i) {
+    dots.forEach((d, k) => {
+      const active = k === i;
+      d.classList.toggle('active', active);
+      d.setAttribute('aria-selected', String(active));
+      d.setAttribute('tabindex', active ? '0' : '-1');
+    });
+  }
+  function go(to, opts = { animate: true }) {
+    index = (to + slides.length) % slides.length;
+    trackSlides.style.transition = opts.animate ? 'transform .6s ease' : 'none';
+    trackSlides.style.transform = `translateX(-${index * 100}%)`;
+    setActiveDot(index);
+  }
+  function play() { stop(); timer = setInterval(() => go(index + 1), DURATION); }
+  function stop() { if (timer) clearInterval(timer); timer = null; }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => go(i));
+    dot.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(i); } });
+  });
+  hero.addEventListener('mouseenter', stop);
+  hero.addEventListener('mouseleave', play);
+
+  // touch swipe on hero
+  let sx = 0, dx = 0, touching = false;
+  hero.addEventListener('touchstart', e => { touching = true; sx = e.touches[0].clientX; dx = 0; stop(); }, { passive: true });
+  hero.addEventListener('touchmove', e => { if (touching) dx = e.touches[0].clientX - sx; }, { passive: true });
+  hero.addEventListener('touchend', () => { touching = false; if (Math.abs(dx) > 50) { dx < 0 ? go(index + 1) : go(index - 1); } play(); });
+
+  go(0, { animate: false }); play();
+})();
