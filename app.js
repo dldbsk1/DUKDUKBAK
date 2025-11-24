@@ -153,8 +153,7 @@ subTabs.forEach(tab => {
   });
 });
 
-
-/* ===== Collection Detail Page + Pagination + 뒤로가기 연동 ===== */
+/* ===== Collection Detail Page + 검색 + Pagination + 뒤로가기 연동 ===== */
 const collectionSection = document.getElementById("collection");
 
 if (collectionSection) {
@@ -163,23 +162,52 @@ if (collectionSection) {
 
   // 목록 영역들
   const collectionSearch = collectionSection.querySelector(".collection-search");
+  const searchForm = collectionSection.querySelector(".collection-search-form");
+  const searchInput = searchForm ? searchForm.querySelector("input") : null;
+
   const collectionGrid = collectionSection.querySelector(".collection-grid");
   const pagination = collectionSection.querySelector(".pagination");
 
   // 상세 영역 내부 요소 (#collection-detail 안)
+  const detailImg = detailBox.querySelector(".detail-thumb img");
   const detailTitle = detailBox.querySelector(".detail-info-title");
   const detailMeta = detailBox.querySelector(".detail-meta");
   const detailDesc = detailBox.querySelector(".detail-desc-box");
 
-  // === 페이지네이션 관련 ===
+  // === 소장품 / 검색 / 페이지네이션 기본 세팅 ===
+  const allItems = Array.from(collectionGrid.querySelectorAll(".collection-item")); // 전체 소장품
+  let filteredItems = allItems.slice(); // 검색 후 걸러진 소장품
   const itemsPerPage = 6;
-  const collectionItems = Array.from(collectionSection.querySelectorAll(".collection-item"));
   let currentCollectionPage = 1;
-  const totalItems = collectionItems.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  // 페이지네이션 버튼 생성 (기존 span 초기화 후 다시 생성)
-  if (pagination) {
+  // 검색 메시지 (옵션)
+  const searchMsg = document.createElement("p");
+  searchMsg.className = "collection-search-msg";
+  searchMsg.style.fontSize = "14px";
+  searchMsg.style.margin = "10px 0 0";
+  searchMsg.style.display = "none";
+  if (collectionSearch) {
+    collectionSearch.appendChild(searchMsg);
+  }
+
+  function setSearchMessage(text) {
+    if (!searchMsg) return;
+    if (text) {
+      searchMsg.textContent = text;
+      searchMsg.style.display = "block";
+    } else {
+      searchMsg.textContent = "";
+      searchMsg.style.display = "none";
+    }
+  }
+
+  // 페이지네이션 버튼 다시 만들기
+  function rebuildPagination() {
+    if (!pagination) return;
+
+    const totalItems = filteredItems.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+
     pagination.innerHTML = "";
     for (let i = 1; i <= totalPages; i++) {
       const span = document.createElement("span");
@@ -189,15 +217,21 @@ if (collectionSection) {
     }
   }
 
+  // 특정 페이지에 해당하는 아이템만 보이게
   function showCollectionPage(page) {
+    const totalItems = filteredItems.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
     if (page < 1 || page > totalPages) return;
+
     currentCollectionPage = page;
 
     const start = (page - 1) * itemsPerPage;
     const end = start + itemsPerPage;
 
-    collectionItems.forEach((item, index) => {
-      item.style.display = (index >= start && index < end) ? "block" : "none";
+    const visibleSet = new Set(filteredItems.slice(start, end));
+
+    allItems.forEach((item) => {
+      item.style.display = visibleSet.has(item) ? "" : "none";
     });
 
     if (pagination) {
@@ -207,7 +241,56 @@ if (collectionSection) {
     }
   }
 
-  // 처음에 1페이지 보이기
+  // 검색 적용
+  function applySearch() {
+    if (!searchInput) return;
+
+    const q = searchInput.value.trim();
+    if (!q) {
+      // 검색어 없으면 전체 복원
+      filteredItems = allItems.slice();
+      setSearchMessage("");
+    } else {
+      const lowerQ = q.toLowerCase();
+      filteredItems = allItems.filter(it => {
+        const nameEl = it.querySelector(".collection-name");
+        const titleEl = it.querySelector(".detail-template .detail-title");
+        const nameText = nameEl ? nameEl.textContent : "";
+        const titleText = titleEl ? titleEl.textContent : "";
+        const combined = (nameText + " " + titleText).toLowerCase();
+        return combined.includes(lowerQ);
+      });
+
+      if (filteredItems.length === 0) {
+        setSearchMessage("검색 결과가 없습니다.");
+      } else {
+        setSearchMessage("");
+      }
+    }
+
+    currentCollectionPage = 1;
+    rebuildPagination();
+    showCollectionPage(1);
+  }
+
+  // 검색 폼 이벤트
+  if (searchForm && searchInput) {
+    // 엔터 / 돋보기 버튼 눌렀을 때
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      applySearch();
+    });
+
+    // 입력창 비워졌을 때 자동 초기화
+    searchInput.addEventListener("input", () => {
+      if (searchInput.value.trim() === "") {
+        applySearch();
+      }
+    });
+  }
+
+  // 처음에 전체 기준으로 페이지네이션 세팅
+  rebuildPagination();
   showCollectionPage(1);
 
   // 페이지 번호 클릭 시 페이지 전환
@@ -220,7 +303,7 @@ if (collectionSection) {
     });
   }
 
-  // 처음엔 "목록 상태"를 기본 state로 심어두기
+  // ===== 뒤로가기 상태 관리 =====
   function ensureCollectionBaseState() {
     if (!history.state || typeof history.state.collectionDetail === "undefined") {
       history.replaceState({ collectionDetail: false }, "");
@@ -228,14 +311,12 @@ if (collectionSection) {
   }
   ensureCollectionBaseState();
 
-  // 화면 토글 함수들
   function showCollectionList(scroll = true) {
     detailBox.style.display = "none";
     if (collectionSearch) collectionSearch.style.display = "";
     if (collectionGrid) collectionGrid.style.display = "";
     if (pagination) pagination.style.display = "";
 
-    // 목록으로 돌아올 때 현재 페이지 유지해서 다시 보여주기
     showCollectionPage(currentCollectionPage);
 
     if (scroll) {
@@ -254,10 +335,18 @@ if (collectionSection) {
     }
   }
 
-  // 카드에서 상세 내용 채우기
+  // 카드에서 상세 내용 채우기 (이미지 + 텍스트)
   function fillDetailFromItem(it) {
     const tpl = it.querySelector(".detail-template");
     const nameEl = it.querySelector(".collection-name");
+    const thumbImg = it.querySelector(".collection-thumb img");
+
+    // 썸네일 이미지도 상세에 복사
+    if (thumbImg && detailImg) {
+      detailImg.src = thumbImg.src;
+      const nameText = nameEl ? nameEl.textContent.trim() : "";
+      detailImg.alt = nameText || thumbImg.alt || "";
+    }
 
     if (tpl) {
       const tTitle = tpl.querySelector(".detail-title");
@@ -276,8 +365,8 @@ if (collectionSection) {
     }
   }
 
-  // 소장품 카드 클릭 → 상세 페이지로 전환 + history.pushState
-  collectionItems.forEach(it => {
+  // 카드 클릭 → 상세 페이지 진입
+  allItems.forEach(it => {
     it.addEventListener("click", () => {
       fillDetailFromItem(it);
       showCollectionDetail(true);
@@ -289,14 +378,14 @@ if (collectionSection) {
     });
   });
 
-  // "목록" 버튼 → history.back()으로 뒤로가기와 동일하게 동작
+  // "목록" 버튼 → history.back()
   if (detailClose) {
     detailClose.addEventListener("click", () => {
       history.back();
     });
   }
 
-  // 브라우저 뒤로가기 / 앞으로가기 버튼 눌렀을 때 처리
+  // 브라우저 뒤로가기 / 앞으로가기
   window.addEventListener("popstate", (event) => {
     if (event.state && event.state.collectionDetail) {
       showCollectionDetail(false);
@@ -305,7 +394,6 @@ if (collectionSection) {
     }
   });
 }
-
 
 /* ===== Home Hero Slider ===== */
 (function () {
