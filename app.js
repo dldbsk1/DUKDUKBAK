@@ -5,41 +5,40 @@ const screens = Array.from(track.children);
 const indexById = Object.fromEntries(screens.map((sec, i) => [sec.id, i]));
 let current = 0;
 
-
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('.top-nav-menu');
 
 function closeMenu() {
-    navMenu.classList.remove('open');
-    navToggle.classList.remove('open');
-  }
+  navMenu.classList.remove('open');
+  navToggle.classList.remove('open');
+}
 
-  if (navToggle && navMenu) {
-    navToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      navMenu.classList.toggle('open');
-      navToggle.classList.toggle('open');
-    });
+if (navToggle && navMenu) {
+  navToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navMenu.classList.toggle('open');
+    navToggle.classList.toggle('open');
+  });
 
-    // 메뉴 안을 클릭할 때는 바깥 클릭으로 취급 안 되게
-    navMenu.addEventListener('click', (e) => {
-      e.stopPropagation();
-    });
+  // 메뉴 안을 클릭할 때는 바깥 클릭으로 취급 안 되게
+  navMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
 
-    // 문서 아무 곳이나 클릭하면 메뉴 닫기
-    document.addEventListener('click', () => {
-      if (navMenu.classList.contains('open')) {
-        closeMenu();
-      }
-    });
+  // 문서 아무 곳이나 클릭하면 메뉴 닫기
+  document.addEventListener('click', () => {
+    if (navMenu.classList.contains('open')) {
+      closeMenu();
+    }
+  });
 
-    // 화면 리사이즈 시(예: 가로로 눕혔다가 다시 세로), 넓어지면 메뉴 강제 닫기
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 768) {
-        closeMenu();
-      }
-    });
-  }
+  // 화면 리사이즈 시(예: 가로로 눕혔다가 다시 세로), 넓어지면 메뉴 강제 닫기
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      closeMenu();
+    }
+  });
+}
 
 function setActiveScreen(id) {
   screens.forEach(sec => {
@@ -155,7 +154,7 @@ subTabs.forEach(tab => {
 });
 
 
-/* ===== Collection Detail Page + 뒤로가기 연동 ===== */
+/* ===== Collection Detail Page + Pagination + 뒤로가기 연동 ===== */
 const collectionSection = document.getElementById("collection");
 
 if (collectionSection) {
@@ -172,6 +171,55 @@ if (collectionSection) {
   const detailMeta = detailBox.querySelector(".detail-meta");
   const detailDesc = detailBox.querySelector(".detail-desc-box");
 
+  // === 페이지네이션 관련 ===
+  const itemsPerPage = 6;
+  const collectionItems = Array.from(collectionSection.querySelectorAll(".collection-item"));
+  let currentCollectionPage = 1;
+  const totalItems = collectionItems.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  // 페이지네이션 버튼 생성 (기존 span 초기화 후 다시 생성)
+  if (pagination) {
+    pagination.innerHTML = "";
+    for (let i = 1; i <= totalPages; i++) {
+      const span = document.createElement("span");
+      span.textContent = i;
+      if (i === 1) span.classList.add("active");
+      pagination.appendChild(span);
+    }
+  }
+
+  function showCollectionPage(page) {
+    if (page < 1 || page > totalPages) return;
+    currentCollectionPage = page;
+
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+
+    collectionItems.forEach((item, index) => {
+      item.style.display = (index >= start && index < end) ? "block" : "none";
+    });
+
+    if (pagination) {
+      Array.from(pagination.children).forEach((p, idx) => {
+        p.classList.toggle("active", idx === page - 1);
+      });
+    }
+  }
+
+  // 처음에 1페이지 보이기
+  showCollectionPage(1);
+
+  // 페이지 번호 클릭 시 페이지 전환
+  if (pagination) {
+    pagination.addEventListener("click", (e) => {
+      if (e.target.tagName === "SPAN") {
+        const p = Number(e.target.textContent);
+        if (!isNaN(p)) showCollectionPage(p);
+      }
+    });
+  }
+
   // 처음엔 "목록 상태"를 기본 state로 심어두기
   function ensureCollectionBaseState() {
     if (!history.state || typeof history.state.collectionDetail === "undefined") {
@@ -186,6 +234,13 @@ if (collectionSection) {
     if (collectionSearch) collectionSearch.style.display = "";
     if (collectionGrid) collectionGrid.style.display = "";
     if (pagination) pagination.style.display = "";
+
+    // 목록으로 돌아올 때 현재 페이지 유지해서 다시 보여주기
+    showCollectionPage(currentCollectionPage);
+
+    if (scroll) {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }
   }
 
   function showCollectionDetail(scroll = true) {
@@ -193,6 +248,10 @@ if (collectionSection) {
     if (collectionGrid) collectionGrid.style.display = "none";
     if (pagination) pagination.style.display = "none";
     detailBox.style.display = "block";
+
+    if (scroll) {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }
   }
 
   // 카드에서 상세 내용 채우기
@@ -211,25 +270,22 @@ if (collectionSection) {
       detailMeta.innerHTML = tMeta ? tMeta.innerHTML : "";
       detailDesc.innerHTML = tDesc ? tDesc.innerHTML : "";
     } else {
-      if (nameEl) detailTitle.textContent = nameEl.textcontent?.trim?.() || "";
+      if (nameEl) detailTitle.textContent = nameEl.textContent?.trim?.() || "";
       detailMeta.innerHTML = "";
       detailDesc.innerHTML = "";
     }
   }
 
   // 소장품 카드 클릭 → 상세 페이지로 전환 + history.pushState
-  document.querySelectorAll(".collection-item").forEach(it => {
+  collectionItems.forEach(it => {
     it.addEventListener("click", () => {
-      fillDetailFromItem(it);           
-      showCollectionDetail(true);       
-      history.pushState(             
+      fillDetailFromItem(it);
+      showCollectionDetail(true);
+      history.pushState(
         { collectionDetail: true },
         "",
-        window.location.href         
+        window.location.href
       );
-
-      // 상세로 들어갈 때도 맨 위로 올리고 싶으면 이 줄 유지
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     });
   });
 
@@ -243,9 +299,9 @@ if (collectionSection) {
   // 브라우저 뒤로가기 / 앞으로가기 버튼 눌렀을 때 처리
   window.addEventListener("popstate", (event) => {
     if (event.state && event.state.collectionDetail) {
-       showCollectionDetail(false);
+      showCollectionDetail(false);
     } else {
-       showCollectionList(false);
+      showCollectionList(false);
     }
   });
 }

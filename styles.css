@@ -531,7 +531,7 @@ header {
   font-weight: 600;
   color: #b70050;
   padding: 3% 0 2%;
-  margin-bottom: 13px;
+  /* margin-bottom: 13px; */
   display: flex;
   align-items: center;
   gap: 6px;
@@ -675,7 +675,7 @@ header {
 .collection-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 2fr));
-  gap: 30px 40px;
+  gap: 50px 50px;
   padding: 10%;
   padding-top: 7%;
 }
@@ -683,12 +683,13 @@ header {
 .collection-item {
   font-size: 11px;
   cursor: pointer;
+  display: block;
 }
 
 .collection-thumb {
   width: 100%;
-  padding-top: 75%;
-  background: #c1c1c1;
+  padding-top: 0%;
+  /* background: #c1c1c1; */
   margin-bottom: 6px;
 }
 

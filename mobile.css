@@ -1,177 +1,172 @@
-/* ===== Responsive ===== */
-@media (max-width:768px) {
+ @media (max-width:768px) {
 
-    html,
-    body {
-        height: auto;
-        overflow-x: hidden;
-        /* 가로 스크롤 방지 */
-    }
+     html,
+     body {
+         height: auto;
+         overflow-x: hidden;
+     }
 
-    .viewport {
-        overflow-x: hidden;
-    }
+     .viewport {
+         overflow-x: hidden;
+     }
 
-    .screen {
-        min-height: auto;
-    }
+     .screen {
+         min-height: auto;
+     }
 
-    .top-nav {
-        grid-template-columns: auto 1fr auto;
-        padding: 10px 16px;
-    }
+     .top-nav {
+         grid-template-columns: auto 1fr auto;
+         padding: 10px 16px;
+     }
 
-    .logo img {
-        height: 32px;
-    }
+     .logo img {
+         height: 32px;
+     }
 
-    /* 햄버거 버튼 보이기 */
-    .nav-toggle {
-        display: block;
-    }
+     .nav-toggle {
+         display: block;
+     }
 
-    /* 메뉴는 접혀있다가 열리면 아래로 펼쳐지게 */
-    .top-nav-menu {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background: #fff;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 12px 20px 16px;
-        gap: 10px;
-        border-bottom: 1px solid #ddd;
-        display: none;
-        /* 기본 숨김 */
-        z-index: 15;
-    }
+     .top-nav-menu {
+         position: absolute;
+         top: 100%;
+         right: 0;
+         background: #fff;
+         flex-direction: column;
+         align-items: flex-start;
+         padding: 12px 20px 16px;
+         gap: 10px;
+         border-bottom: 1px solid #ddd;
+         display: none;
+         z-index: 15;
+     }
 
-    .top-nav-menu.open {
-        display: flex;
-    }
+     .top-nav-menu.open {
+         display: flex;
+     }
 
-    .top-nav-menu li::after {
-        display: none;
-    }
+     .top-nav-menu li::after {
+         display: none;
+     }
 
-    .slide {
-        height: 60vh;
-        min-height: 40vh;
-    }
+     .slide {
+         height: 60vh;
+         min-height: 40vh;
+     }
 
-    .slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+     .slide img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+     }
 
-    .home-info-row {
-        padding: 24px 16px 40px;
-    }
+     .home-info-row {
+         padding: 24px 16px 40px;
+     }
 
-    .info-section {
-        max-width: 100%;
-        width: 100%;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+     .info-section {
+         max-width: 100%;
+         width: 100%;
+         margin: 0;
+         display: flex;
+         flex-direction: column;
+         gap: 20px;
+     }
 
-    .exhibit-image {
-        position: relative;
-        width: 100% !important;
-        max-width: 100%;
-        height: auto;
-        aspect-ratio: 4 / 3;
-        overflow: hidden;
-    }
+     .exhibit-image {
+         position: relative;
+         width: 100% !important;
+         max-width: 100%;
+         height: auto;
+         aspect-ratio: 4 / 3;
+         overflow: hidden;
+     }
 
-    .exhibit-image img {
-        position: static;
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-    }
+     .exhibit-image img {
+         position: static;
+         width: 100%;
+         height: auto;
+         object-fit: cover;
+     }
 
-    .info-visit,
-    .visit-card {
-        width: 100%;
-    }
+     .info-visit,
+     .visit-card {
+         width: 100%;
+     }
 
-    .partners {
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 24px;
-        margin-top: 12px;
-    }
+     .partners {
+         justify-content: center;
+         flex-wrap: wrap;
+         gap: 24px;
+         margin-top: 12px;
+     }
 
-    .top-nav {
-        padding: 10px 16px;
-        column-gap: 20px;
-    }
+     .top-nav {
+         padding: 10px 16px;
+         column-gap: 20px;
+     }
 
-    .timeline {
-        margin-left: 26px;
-        padding-left: 22px;
-    }
+     .timeline {
+         margin-left: 26px;
+         padding-left: 22px;
+     }
 
-    .detail-layout {
-        flex-direction: column;
-    }
+     .detail-layout {
+         flex-direction: column;
+     }
 
-    .detail-thumb {
-        flex-basis: auto;
-        width: 100%;
-    }
+     .detail-thumb {
+         flex-basis: auto;
+         width: 100%;
+     }
 
-    .collection-grid {
-        max-width: 100%;
-        padding: 10px 24px;
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 24px;
-        row-gap: 40px;
-    }
+     .collection-grid {
+         max-width: 100%;
+         padding: 10px 24px;
+         grid-template-columns: repeat(2, 1fr);
+         column-gap: 24px;
+         row-gap: 40px;
+     }
 
-    .timeline.modern {
-        padding-left: 64px;
-    }
+     .timeline.modern {
+         padding-left: 64px;
+     }
 
-    .timeline.modern::before {
-        left: 28px;
-    }
+     .timeline.modern::before {
+         left: 28px;
+     }
 
-    .year-block::before {
-        left: 20px;
-    }
+     .year-block::before {
+         left: 20px;
+     }
 
-    .year {
-        font-size: 24px;
-    }
+     .year {
+         font-size: 24px;
+     }
 
-    .events .text {
-        font-size: 13px;
-    }
+     .events .text {
+         font-size: 13px;
+     }
 
-    #tab-explain .about-guide {
-        margin: 30px 20px 60px;
-    }
+     #tab-explain .about-guide {
+         margin: 30px 20px 60px;
+     }
 
-    .about-guide-list .room {
-        display: block;
-        margin-bottom: 2px;
-    }
+     .about-guide-list .room {
+         display: block;
+         margin-bottom: 2px;
+     }
 
-    #tab-visit .visit-layout {
-        flex-direction: column;
-        gap: 24px;
-        margin: 40px 20px 60px;
-        align-items: flex-start;
-    }
+     #tab-visit .visit-layout {
+         flex-direction: column;
+         gap: 24px;
+         margin: 40px 20px 60px;
+         align-items: flex-start;
+     }
 
-    .visit-thumb {
-        width: 100%;
-        max-width: 320px;
-        aspect-ratio: 4 / 3;
-    }
-}
+     .visit-thumb {
+         width: 100%;
+         max-width: 320px;
+         aspect-ratio: 4 / 3;
+     }
+ }
