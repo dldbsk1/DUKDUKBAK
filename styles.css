@@ -78,8 +78,8 @@ header {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  padding: clamp(8px, 1.2vw, 14px) clamp(16px, 5vw, 80px);
-  column-gap: clamp(16px, 4vw, 72px);
+  padding: clamp(8px, 1.2vw, 14px) clamp(16px, 3vw, 80px);
+  column-gap: clamp(16px, 4vw, 55px);
   position: relative;
 }
 
@@ -576,7 +576,7 @@ header {
 .visit-thumb {
   flex: 0 0 220px;
   aspect-ratio: 3 / 4;
-  background: #d9d9d9;
+  background: #ffffff;
 }
 
 .visit-text {
@@ -672,6 +672,38 @@ header {
   font-size: 15px;
 }
 
+.hover-box {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.hover-box:hover .hover-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hover-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .collection-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 2fr));
@@ -688,14 +720,34 @@ header {
 
 .collection-thumb {
   width: 100%;
-  padding-top: 0%;
-  /* background: #c1c1c1; */
-  margin-bottom: 6px;
+  
+  aspect-ratio: 4 / 3;
+
+  overflow: hidden;
+  border-radius: 8px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
 }
+
+.collection-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+}
+
 
 .collection-name {
   text-align: center;
   font-size: 15px;
+}
+
+.collection-name-AI {
+  text-align: center;
+  font-weight: 600;
+  font-size: 15.5px;
 }
 
 .pagination {
