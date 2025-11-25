@@ -399,7 +399,7 @@ header {
 
   color: #fff;
 }
-
+/* 
 .sub-header-room {
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
@@ -410,12 +410,12 @@ header {
   background-repeat: no-repeat;
 
   color: #fff;
-}
+} */
 
 .sub-header-exhibition {
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-    url("./image/IMG_0024.JPG");
+    url("./image/IMG_0013.JPG");
 
   background-size: cover;
   background-position: center;
@@ -568,16 +568,17 @@ header {
 #tab-visit .visit-layout {
   max-width: 900px;
   margin: 60px auto 80px;
+  padding-left: 12%;
   display: flex;
   gap: 60px;
   align-items: center;
 }
-
+/* 
 .visit-thumb {
   flex: 0 0 220px;
   aspect-ratio: 3 / 4;
   background: #ffffff;
-}
+} */
 
 .visit-text {
   flex: 1;
