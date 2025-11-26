@@ -107,7 +107,6 @@
      }
 
      .timeline {
-         margin-left: 26px;
          padding-left: 22px;
      }
 
@@ -162,6 +161,8 @@
          gap: 24px;
          margin: 40px 20px 60px;
          align-items: flex-start;
+         padding-left: 5%;
+         padding-right: 5%;
      }
 
      .visit-thumb {
