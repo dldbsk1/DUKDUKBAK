@@ -399,18 +399,6 @@ header {
 
   color: #fff;
 }
-/* 
-.sub-header-room {
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-    url("./image/IMG_0013.JPG");
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  color: #fff;
-} */
 
 .sub-header-exhibition {
   background-image:
@@ -749,6 +737,27 @@ header {
   text-align: center;
   font-weight: 600;
   font-size: 15.5px;
+}
+
+#collection-detail > div.detail-layout > div.detail-info > div.curator{
+  padding-top: 10%;
+}
+
+.curator-res {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+.curator-res iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 .pagination {

@@ -170,4 +170,8 @@
          max-width: 320px;
          aspect-ratio: 4 / 3;
      }
+
+     .curator-res {
+         padding-bottom: 177.78%;
+     }
  }
