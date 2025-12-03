@@ -119,6 +119,11 @@
          width: 100%;
      }
 
+     .detail-desc-box {
+        width: auto;
+        height: auto;
+     }
+
      .collection-grid {
          max-width: 100%;
          padding: 10px 24px;
