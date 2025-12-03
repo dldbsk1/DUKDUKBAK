@@ -44,6 +44,8 @@ function setActiveScreen(id) {
   });
 }
 
+window.__collectionHelpers = window.__collectionHelpers || {};
+
 function goTo(id, opts = { updateHash: true }) {
   const idx = indexById[id];
   if (idx == null) return;
@@ -56,15 +58,17 @@ function goTo(id, opts = { updateHash: true }) {
     n.classList.toggle("active", n.getAttribute("data-target") === id)
   );
 
-  if (id === "collection" && typeof window.__showCollectionListFromNav === "function") {
-    window.__showCollectionListFromNav();
+  if (window.__collectionHelpers && window.__collectionHelpers[id]) {
+    const helper = window.__collectionHelpers[id];
+    
+    if (typeof helper.stopVideo === "function") {
+      helper.stopVideo();
+    }
+    
+    if (typeof helper.showList === "function") {
+      helper.showList(false);
+    }
   }
-
-  if (typeof window.__showCollectionListFromNav === "function") {
-  if (typeof window.__stopDetailVideo === "function") {
-    window.__stopDetailVideo();
-  }
-}
 
   if (opts.updateHash) {
     history.replaceState(null, "", `#${id}`);
@@ -130,7 +134,6 @@ track.addEventListener('touchend', () => {
   }
 });
 
-
 /* Sub-tabs */
 const subTabs = document.querySelectorAll(".sub-tab");
 const tabPanels = {
@@ -150,14 +153,12 @@ subTabs.forEach(tab => {
   });
 });
 
+function initCollectionScreen(sectionId, detailId) {
+  const collectionSection = document.getElementById(sectionId);
+  if (!collectionSection) return;
 
-/* ===== Collection Detail Page + 검색 + Pagination + 뒤로가기 연동 ===== */
-const collectionSection = document.getElementById("collection");
-
-if (collectionSection) {
-  const detailBox = document.getElementById("collection-detail");
-  const detailClose = document.getElementById("detail-close");
-
+  const detailBox = document.getElementById(detailId);
+  const detailClose = detailBox.querySelector("#detail-close"); 
   const collectionSearch = collectionSection.querySelector(".collection-search");
   const searchForm = collectionSection.querySelector(".collection-search-form");
   const searchInput = searchForm ? searchForm.querySelector("input") : null;
@@ -193,8 +194,6 @@ if (collectionSection) {
     }
     detailCurator.innerHTML = "";
   }
-
-  window.__stopDetailVideo = stopDetailVideo;
 
   function setSearchMessage(text) {
     if (!searchMsg) return;
@@ -315,6 +314,10 @@ if (collectionSection) {
 
     showCollectionPage(currentCollectionPage);
 
+    if (history.state && history.state.collectionDetail) {
+      history.replaceState({ collectionDetail: false }, "", window.location.pathname + "#" + sectionId);
+    }
+
     if (scroll) {
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     }
@@ -330,10 +333,6 @@ if (collectionSection) {
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     }
   }
-
-  window.__showCollectionListFromNav = function () {
-    showCollectionList(false);
-  };
 
   function fillDetailFromItem(it) {
     const tpl = it.querySelector(".detail-template");
@@ -405,62 +404,15 @@ if (collectionSection) {
       showCollectionList(false);
     }
   });
+
+  window.__collectionHelpers[sectionId] = {
+    stopVideo: stopDetailVideo,
+    showList: function(shouldScroll) {
+      showCollectionList(shouldScroll);
+    }
+  };
 }
 
-
-/* ===== Home Hero Slider ===== */
-(function () {
-  const hero = document.querySelector('.hero');
-  const trackSlides = document.getElementById('slides');
-  if (!hero || !trackSlides) return;
-
-  const slides = Array.from(trackSlides.children);
-  const dots = Array.from(hero.querySelectorAll('.dot'));
-  slides.forEach((el, i) => { if (!el.id) el.id = `slide${i + 1}`; });
-  dots.forEach((d, i) => { d.setAttribute('aria-controls', slides[i].id); });
-
-  let index = 0;
-  const DURATION = 6000;
-  let timer = null;
-
-  function setActiveDot(i) {
-    dots.forEach((d, k) => {
-      const active = k === i;
-      d.classList.toggle('active', active);
-      d.setAttribute('aria-selected', String(active));
-      d.setAttribute('tabindex', active ? '0' : '-1');
-    });
-  }
-  function go(to, opts = { animate: true }) {
-    index = (to + slides.length) % slides.length;
-    trackSlides.style.transition = opts.animate ? 'transform .6s ease' : 'none';
-    trackSlides.style.transform = `translateX(-${index * 100}%)`;
-    setActiveDot(index);
-  }
-  function play() { stop(); timer = setInterval(() => go(index + 1), DURATION); }
-  function stop() { if (timer) clearInterval(timer); timer = null; }
-
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => go(i));
-    dot.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        go(i);
-      }
-    });
-  });
-  hero.addEventListener('mouseenter', stop);
-  hero.addEventListener('mouseleave', play);
-
-  let sx = 0, dx = 0, touching = false;
-  hero.addEventListener('touchstart', e => { touching = true; sx = e.touches[0].clientX; dx = 0; stop(); }, { passive: true });
-  hero.addEventListener('touchmove', e => { if (touching) dx = e.touches[0].clientX - sx; }, { passive: true });
-  hero.addEventListener('touchend', () => {
-    touching = false;
-    if (Math.abs(dx) > 50) { dx < 0 ? go(index + 1) : go(index - 1); }
-    play();
-  });
-
-  go(0, { animate: false });
-  play();
-})();
+// 두 개의 섹션 초기화
+initCollectionScreen("collection", "collection-detail");
+initCollectionScreen("AIC", "AIC-detail");
